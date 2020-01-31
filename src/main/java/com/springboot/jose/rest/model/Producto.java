@@ -7,8 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
@@ -30,13 +29,15 @@ public class Producto implements Serializable {
 	
 	/* LO NORMAL */
 	private String nombre; 
-	private String descripcion;
 	private float precio;
+	private String descripcion;
 	private int stock;
+	private boolean activo;
 	
 	@ManyToOne
-	@JoinTable(name = "categoria_id")
+	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
+
 	
 	/* la configuracion */
 //	@Version

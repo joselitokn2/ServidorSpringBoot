@@ -2,19 +2,30 @@ package com.springboot.jose.rest.service;
 
 import java.util.List;
 
+import com.springboot.jose.rest.dto.CreateProductoDTO;
+import com.springboot.jose.rest.dto.ProductoDTO;
 import com.springboot.jose.rest.model.Producto;
 
 
 
 public interface ProductoService {
 
-	public void addProducto(Producto producto) ;
 
-	public List<Producto> listaProductos();
 
+	public void addProducto(CreateProductoDTO createProductoDTO);
+
+	public List<ProductoDTO> allProductos();
+	
 	public void deleteProducto(long productoId);
 
-	public void updateProducto(long productoId ,Producto producto);
+	public void updateProducto(long productoId, Producto producto);
 
-	public Producto findProducto(long productoId);
+	public Producto getProducto(long productoId);
+
+	
+
+
+
+
+	
 }

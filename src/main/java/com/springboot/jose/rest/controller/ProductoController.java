@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springboot.jose.rest.dto.CreateProductoDTO;
 import com.springboot.jose.rest.dto.ProductoDTO;
 import com.springboot.jose.rest.dto.converter.ProductoDTOConverter;
+import com.springboot.jose.rest.exception.GlobalNotFoundException;
 import com.springboot.jose.rest.model.Categoria;
 import com.springboot.jose.rest.model.Producto;
 import com.springboot.jose.rest.repository.CategoriaRepository;
@@ -37,69 +38,39 @@ public class ProductoController {
 	@Autowired
 	ProductoRepository productoRepository;
 
-	@PostMapping("/producto/alta")
-	public ResponseEntity<String> altaProducto(@RequestBody Producto producto) {
-		productoService.addProducto(producto);
-		return new ResponseEntity<>("Ha sido creado", HttpStatus.OK);
-	}
-	
-	/**
-	 * Insertamos un nuevo producto
-	 * 
-	 * @param nuevo
-	 * @return 201 y el producto insertado
-	 */
-	@PostMapping("/producto/altaDTO")
-	// public ResponseEntity<?> nuevoProducto(@RequestBody Producto nuevo) {
-	public ResponseEntity<?> nuevoProducto(@RequestBody CreateProductoDTO nuevo) {
-		// En este caso, para contrastar, lo hacemos manualmente
-		
-		// Este código sería más propio de un servicio. Lo implementamos aquí
-		// por no hacer más complejo el ejercicio.
-		Producto nuevoProducto = new Producto();
-		nuevoProducto.setNombre(nuevo.getNombre());
-		nuevoProducto.setPrecio(nuevo.getPrecio());
-		Categoria categoria = categoriaRepository.findById(nuevo.getCategoria_id()).orElse(null);
-		nuevoProducto.setCategoria(categoria);
-		return ResponseEntity.status(HttpStatus.CREATED).body(productoRepository.save(nuevoProducto));
-	}
-	/**
-	 * Obtenemos todos los productos
-	 * 
-	 * @return 404 si no hay productos, 200 y lista de productos si hay uno o más
-	 */
-	@GetMapping("/producto/listaDTO")
-	public ResponseEntity<?> obtenerTodos() {
-		List<Producto> result = productoRepository.findAll();
-
-		if (result.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		} else {
-
-			List<ProductoDTO> dtoList = result.stream().map(productoDTOconverter::convertToDto)
-					.collect(Collectors.toList());
-
-			return ResponseEntity.ok(dtoList);
+	@GetMapping("/producto/{id}")
+	public ResponseEntity<Producto> getItem(@PathVariable Long id) {
+		if (id <= 0) {
+			throw new GlobalNotFoundException("Invalid id");
 		}
-
+		Producto producto = productoService.getProducto(id);
+		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
 
-	@GetMapping("/producto/lista")
-	public ResponseEntity<List<Producto>> listaProductos() {
-		List<Producto> producto = productoService.listaProductos();
-		return ResponseEntity.ok().body(producto);
+	@PostMapping("/producto/add")
+	public ResponseEntity<CreateProductoDTO> addProducto(@RequestBody CreateProductoDTO createProductoDTO) {
+		productoService.addProducto(createProductoDTO);
+		return new ResponseEntity<>(createProductoDTO, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/prodcuto/update/{id}")
-	public ResponseEntity<String> updateProducto(@PathVariable Long id, @RequestBody Producto producto) {
-		productoService.updateProducto(id, producto);
-		return new ResponseEntity<>("Ha sido actualizado", HttpStatus.OK);
+	@GetMapping("/producto/all")
+	public ResponseEntity<List<ProductoDTO>> allProductos() {
+		List<ProductoDTO> producto = productoService.allProductos();
+		return new ResponseEntity<>(producto, HttpStatus.OK);
+	}
+
+	@PutMapping("/producto/update/{id}")
+	public ResponseEntity<Producto> updateProducto(@PathVariable Long id, @RequestBody Producto producto) {
+		if (producto != null) {
+			productoService.updateProducto(id, producto);
+		}
+		return new ResponseEntity<>(producto, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/producto/delete/{id}")
-	public ResponseEntity<String> deleteProducto(@PathVariable Long id) {
+	public ResponseEntity<Producto> deleteEmpleado(@PathVariable Long id) {
+		Producto producto = productoService.getProducto(id);
 		productoService.deleteProducto(id);
-		return new ResponseEntity<>("Ha sido eliminado", HttpStatus.OK);
+		return new ResponseEntity<>(producto, HttpStatus.NO_CONTENT);
 	}
-
 }

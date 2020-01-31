@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.springboot.jose.rest.dto.CreateProductoDTO;
 import com.springboot.jose.rest.dto.ProductoDTO;
 import com.springboot.jose.rest.model.Producto;
 
@@ -18,6 +19,11 @@ public class ProductoDTOConverter {
 	/*Transforma un producto en un producto nuevo*/
 	public ProductoDTO convertToDto(Producto producto) {
 		return modelMapper.map(producto, ProductoDTO.class);
+	}
+
+	
+	public Producto createdToDTO(CreateProductoDTO createProductoDTO) {
+		return modelMapper.map(createProductoDTO, Producto.class);
 	}
 
 }
