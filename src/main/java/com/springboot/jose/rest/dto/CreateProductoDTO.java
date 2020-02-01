@@ -7,16 +7,24 @@ import javax.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter 
+@Setter
 public class CreateProductoDTO {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long producto_id;
+	
 	private String nombre;
+	
 	private float precio;
+	
 	private String descripcion;
+	
 	private int stock;
-	private long categoriaId;
+	
+	private long categoria_id;
+	
+	
 
 }

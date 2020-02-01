@@ -1,12 +1,12 @@
 package com.springboot.jose.rest.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,18 +15,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.springboot.jose.rest.dto.CreateProductoDTO;
 import com.springboot.jose.rest.dto.ProductoDTO;
 import com.springboot.jose.rest.dto.converter.ProductoDTOConverter;
 import com.springboot.jose.rest.exception.GlobalNotFoundException;
-import com.springboot.jose.rest.model.Categoria;
 import com.springboot.jose.rest.model.Producto;
 import com.springboot.jose.rest.repository.CategoriaRepository;
 import com.springboot.jose.rest.repository.ProductoRepository;
 import com.springboot.jose.rest.service.ProductoService;
 
-@CrossOrigin(origins = "*")
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class ProductoController {
 
 	@Autowired
@@ -52,6 +54,7 @@ public class ProductoController {
 		productoService.addProducto(createProductoDTO);
 		return new ResponseEntity<>(createProductoDTO, HttpStatus.CREATED);
 	}
+
 
 	@GetMapping("/producto/all")
 	public ResponseEntity<List<ProductoDTO>> allProductos() {

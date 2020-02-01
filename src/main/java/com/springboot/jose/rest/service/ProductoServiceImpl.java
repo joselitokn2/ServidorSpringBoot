@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.springboot.jose.rest.dto.CreateProductoDTO;
 import com.springboot.jose.rest.dto.ProductoDTO;
 import com.springboot.jose.rest.dto.converter.ProductoDTOConverter;
@@ -65,12 +66,13 @@ public class ProductoServiceImpl implements ProductoService {
 
 	@Override
 	public void addProducto(CreateProductoDTO createProductoDTO) {
+		
 		Producto producto = productoDTOconverter.createdToDTO(createProductoDTO);
-		categoriaRepository.findById(producto.getCategoria().getCategoria_id())
+		categoriaRepository.findById(producto.getCategoria().getCategoria_id().longValue())
 				.map(o -> productoRepository.save(producto));
 		
 	}
-	
+
 
 
 
