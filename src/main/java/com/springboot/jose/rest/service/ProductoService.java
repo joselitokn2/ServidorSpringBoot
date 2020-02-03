@@ -12,7 +12,7 @@ public interface ProductoService {
 
 
 
-	public void addProducto(CreateProductoDTO createProductoDTO);
+	public void addProducto(CreateProductoDTO createProductoDTO, String imagenUrl);
 
 	public List<ProductoDTO> allProductos();
 	
@@ -21,6 +21,8 @@ public interface ProductoService {
 	public void updateProducto(long productoId, Producto producto);
 
 	public Producto getProducto(long productoId);
+
+	public void addProducto(CreateProductoDTO createProductoDTO);
 
 	
 

@@ -24,6 +24,7 @@ public class ProductoDTOConverter {
 
 	
 	public Producto createdToDTO(CreateProductoDTO createProductoDTO) {
+		
 		return modelMapper.map(createProductoDTO, Producto.class);
 	}
 

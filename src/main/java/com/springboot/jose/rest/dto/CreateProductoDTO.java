@@ -23,8 +23,9 @@ public class CreateProductoDTO {
 	
 	private int stock;
 	
+	//private String imagen;
+	
 	private long categoria_id;
 	
 	
-
 }

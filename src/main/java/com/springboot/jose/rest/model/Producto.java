@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +33,7 @@ public class Producto implements Serializable {
 	private float precio;
 	private String descripcion;
 	private int stock;
+	private String imagen;
 	private boolean activo;
 	
 	@ManyToOne

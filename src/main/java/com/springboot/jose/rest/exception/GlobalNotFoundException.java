@@ -2,6 +2,8 @@ package com.springboot.jose.rest.exception;
 
 public class GlobalNotFoundException extends RuntimeException  {
 
+
+
 	/**
 	 * 
 	 */

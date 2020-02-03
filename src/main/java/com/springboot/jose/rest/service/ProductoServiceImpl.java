@@ -16,6 +16,7 @@ import com.springboot.jose.rest.exception.GlobalNotFoundException;
 import com.springboot.jose.rest.model.Producto;
 import com.springboot.jose.rest.repository.CategoriaRepository;
 import com.springboot.jose.rest.repository.ProductoRepository;
+import com.springboot.jose.rest.upload.StorageService;
 
 @Service
 @Transactional
@@ -27,8 +28,8 @@ public class ProductoServiceImpl implements ProductoService {
 	CategoriaRepository categoriaRepository;
 	@Autowired
 	ProductoDTOConverter productoDTOconverter;
-	
-
+	@Autowired
+	StorageService storageService;
 
 	@Override
 	public Producto getProducto(long productoId) {
@@ -65,8 +66,17 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public void addProducto(CreateProductoDTO createProductoDTO) {
+	public void addProducto(CreateProductoDTO createProductoDTO, String imagen) {
+	
+		storageService.loadAsResource(imagen);
+		Producto producto = productoDTOconverter.createdToDTO(createProductoDTO);
+		categoriaRepository.findById(producto.getCategoria().getCategoria_id().longValue())
+				.map(o -> productoRepository.save(producto));
 		
+	}
+
+	@Override
+	public void addProducto(CreateProductoDTO createProductoDTO) {
 		Producto producto = productoDTOconverter.createdToDTO(createProductoDTO);
 		categoriaRepository.findById(producto.getCategoria().getCategoria_id().longValue())
 				.map(o -> productoRepository.save(producto));
