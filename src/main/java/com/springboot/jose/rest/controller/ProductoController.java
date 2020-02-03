@@ -88,8 +88,8 @@ public class ProductoController {
 		// Construimos nuestro nuevo Producto a partir del DTO
 		
 	
-		productoService.addProducto(createProductoDTO);
-		return new ResponseEntity<>(createProductoDTO, HttpStatus.CREATED);
+		productoService.addProducto(createProductoDTO, urlImagen);
+		return new ResponseEntity<>(createProductoDTO , HttpStatus.CREATED);
 	}
 
 

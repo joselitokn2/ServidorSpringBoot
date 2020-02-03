@@ -68,8 +68,9 @@ public class ProductoServiceImpl implements ProductoService {
 	@Override
 	public void addProducto(CreateProductoDTO createProductoDTO, String imagen) {
 	
-		storageService.loadAsResource(imagen);
-		Producto producto = productoDTOconverter.createdToDTO(createProductoDTO);
+		createProductoDTO.setImagen(imagen);
+		Producto producto;
+		producto = productoDTOconverter.createdToDTO(createProductoDTO);
 		categoriaRepository.findById(producto.getCategoria().getCategoria_id().longValue())
 				.map(o -> productoRepository.save(producto));
 		
