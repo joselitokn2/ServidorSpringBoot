@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+
 
 import javax.transaction.Transactional;
 
@@ -15,6 +15,7 @@ import com.springboot.jose.rest.dto.CreateProductoDTO;
 import com.springboot.jose.rest.dto.ProductoDTO;
 import com.springboot.jose.rest.dto.converter.ProductoDTOConverter;
 import com.springboot.jose.rest.exception.GlobalNotFoundException;
+import com.springboot.jose.rest.exception.GlobalSearchException;
 import com.springboot.jose.rest.model.Producto;
 import com.springboot.jose.rest.repository.CategoriaRepository;
 import com.springboot.jose.rest.repository.ProductoRepository;
@@ -90,6 +91,18 @@ public class ProductoServiceImpl implements ProductoService {
 			return empleadoListaDTO;
 		}
 		
+	}
+
+	@Override
+	public Page<ProductoDTO> findByNombre(String txt, Pageable pageable) {
+		Page<Producto> productoLista = productoRepository.findByNombreContainsIgnoreCase(txt, pageable);
+		Page<ProductoDTO> productoListaDTO = productoLista.map(productoDTOconverter::convertToDto);
+		if (productoListaDTO.isEmpty()) {
+			throw new GlobalSearchException(txt);
+		} else {
+			return productoListaDTO;
+		}
+	
 	}
 
 	

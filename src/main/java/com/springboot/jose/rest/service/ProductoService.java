@@ -25,10 +25,7 @@ public interface ProductoService {
 
 	public void addProducto(CreateProductoDTO createProductoDTO);
 
-	
+	public Page<ProductoDTO> findByNombre(String txt,Pageable pageable);
 
 
-
-
-	
 }

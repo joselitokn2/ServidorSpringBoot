@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +29,7 @@ import com.springboot.jose.rest.dto.CreateProductoDTO;
 import com.springboot.jose.rest.dto.ProductoDTO;
 import com.springboot.jose.rest.dto.converter.ProductoDTOConverter;
 import com.springboot.jose.rest.exception.GlobalNotFoundException;
+import com.springboot.jose.rest.exception.GlobalSearchException;
 import com.springboot.jose.rest.model.Producto;
 import com.springboot.jose.rest.repository.CategoriaRepository;
 import com.springboot.jose.rest.repository.ProductoRepository;
@@ -72,6 +74,17 @@ public class ProductoController {
 		Producto producto = productoService.getProducto(id);
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
+	@GetMapping(value = "/producto", params = "nombre")
+	public ResponseEntity<?> buscarProductosPorNombre(@RequestParam("nombre") String txt, Pageable pageable,
+			HttpServletRequest request) {
+
+		Page<ProductoDTO> allProductos = productoService.findByNombre(txt, pageable);
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
+		return ResponseEntity.ok().header("link", paginationLinksUtils.createLinkHeader(allProductos, uriBuilder))
+				.body(allProductos);
+
+	}
+	
 //	@GetMapping("/producto/all")
 //	public ResponseEntity<List<ProductoDTO>> allProductos() {
 //		List<ProductoDTO> producto = productoService.allProductos();
