@@ -1,6 +1,7 @@
 package com.springboot.jose.rest.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.springboot.jose.rest.dto.CreateProductoDTO;
 import com.springboot.jose.rest.dto.ProductoDTO;
@@ -14,7 +15,7 @@ public interface ProductoService {
 
 	public void addProducto(CreateProductoDTO createProductoDTO, String imagenUrl);
 
-	public List<ProductoDTO> allProductos();
+	public Page<ProductoDTO> allProductos(Pageable pageable);
 	
 	public void deleteProducto(long productoId);
 
