@@ -74,22 +74,27 @@ public class ProductoController {
 		Producto producto = productoService.getProducto(id);
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
+	/*BUSCAR POR NOMBRE*/
 	@GetMapping(value = "/producto", params = "nombre")
-	public ResponseEntity<?> buscarProductosPorNombre(@RequestParam("nombre") String txt, Pageable pageable,
+	public ResponseEntity<?> buscarProductosPorNombre(@RequestParam("nombre") String nombre, Pageable pageable,
 			HttpServletRequest request) {
 
-		Page<ProductoDTO> allProductos = productoService.findByNombre(txt, pageable);
+		Page<ProductoDTO> allProductos = productoService.findByNombre(nombre, pageable);
 		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
 		return ResponseEntity.ok().header("link", paginationLinksUtils.createLinkHeader(allProductos, uriBuilder))
 				.body(allProductos);
 
 	}
+
 	
 //	@GetMapping("/producto/all")
 //	public ResponseEntity<List<ProductoDTO>> allProductos() {
 //		List<ProductoDTO> producto = productoService.allProductos();
 //		return new ResponseEntity<>(producto, HttpStatus.OK);
 //	}
+	
+	/*BUSCAR TODOS PAGINADOS*/
+	
 	@GetMapping("/producto/all")
 	public ResponseEntity<Page<ProductoDTO>> allProductos(@PageableDefault(size = 5, page = 0) Pageable pageable,
 			HttpServletRequest request) {
@@ -98,7 +103,7 @@ public class ProductoController {
 		return ResponseEntity.ok().header("link", paginationLinksUtils.createLinkHeader(allproductos, uriBuilder))
 				.body(allproductos);
 	}
-
+/*Insertamos productos directamente sobre el prouduc*/
 	@PostMapping("/producto/add")
 	public ResponseEntity<CreateProductoDTO> addProducto(@RequestBody CreateProductoDTO createProductoDTO) {
 		productoService.addProducto(createProductoDTO);
@@ -106,7 +111,7 @@ public class ProductoController {
 	}
 
 	/**
-	 * Insertamos un nuevo producto
+	 * Insertamos un nuevo producto con imagen
 	 * 
 	 * @param nuevo
 	 * @return 201 y el producto insertado
