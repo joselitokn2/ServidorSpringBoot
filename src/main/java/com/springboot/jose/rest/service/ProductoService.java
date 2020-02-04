@@ -2,6 +2,7 @@ package com.springboot.jose.rest.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.springboot.jose.rest.dto.CreateProductoDTO;
 import com.springboot.jose.rest.dto.ProductoDTO;
@@ -13,7 +14,7 @@ public interface ProductoService {
 
 
 
-	public void addProducto(CreateProductoDTO createProductoDTO, String imagenUrl);
+	public Producto addProducto(CreateProductoDTO createProductoDTO, MultipartFile file);
 
 	public Page<ProductoDTO> allProductos(Pageable pageable);
 	
@@ -23,9 +24,10 @@ public interface ProductoService {
 
 	public Producto getProducto(long productoId);
 
-	public void addProducto(CreateProductoDTO createProductoDTO);
 
 	public Page<ProductoDTO> findByNombre(String txt,Pageable pageable);
+
+	public void addProducto(CreateProductoDTO createProductoDTO);
 
 
 }

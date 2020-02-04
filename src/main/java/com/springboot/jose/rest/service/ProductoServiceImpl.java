@@ -10,7 +10,10 @@ import org.springframework.data.domain.Pageable;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import com.springboot.jose.rest.controller.FicherosController;
 import com.springboot.jose.rest.dto.CreateProductoDTO;
 import com.springboot.jose.rest.dto.ProductoDTO;
 import com.springboot.jose.rest.dto.converter.ProductoDTOConverter;
@@ -20,6 +23,7 @@ import com.springboot.jose.rest.model.Producto;
 import com.springboot.jose.rest.repository.CategoriaRepository;
 import com.springboot.jose.rest.repository.ProductoRepository;
 import com.springboot.jose.rest.upload.StorageService;
+
 
 @Service
 
@@ -37,6 +41,8 @@ public class ProductoServiceImpl implements ProductoService {
 
 	@Autowired
 	StorageService storageService;
+	@Autowired
+	CategoriaService categoriaService;
 
 	@Override
 	public Producto getProducto(long productoId) {
@@ -62,24 +68,7 @@ public class ProductoServiceImpl implements ProductoService {
 
 	}
 
-	@Override
-	public void addProducto(CreateProductoDTO createProductoDTO, String imagen) {
-
-		createProductoDTO.setImagen(imagen);
-		Producto producto;
-		producto = productoDTOconverter.createdToDTO(createProductoDTO);
-		categoriaRepository.findById(producto.getCategoria().getCategoria_id().longValue())
-				.map(o -> productoRepository.save(producto));
-
-	}
-
-	@Override
-	public void addProducto(CreateProductoDTO createProductoDTO) {
-		Producto producto = productoDTOconverter.createdToDTO(createProductoDTO);
-		categoriaRepository.findById(producto.getCategoria().getCategoria_id().longValue())
-				.map(o -> productoRepository.save(producto));
-
-	}
+	
 
 	@Override
 	public Page<ProductoDTO> allProductos(Pageable pageable) {
@@ -104,6 +93,53 @@ public class ProductoServiceImpl implements ProductoService {
 		}
 	
 	}
+
+	@Override
+	public Producto addProducto(CreateProductoDTO createProductoDTO, MultipartFile file) {
+		String urlImagen = null;
+		
+		if (!file.isEmpty()) {
+			String imagen = storageService.store(file);
+			urlImagen = MvcUriComponentsBuilder
+						.fromMethodName(FicherosController.class, "serveFile", imagen, null)  
+						.build().toUriString();
+		}
+				
+		
+		// En ocasiones, no necesitamos el uso de ModelMapper si la conversión que vamos a hacer
+		// es muy sencilla. Con el uso de @Builder sobre la clase en cuestión, podemos realizar 
+		// una transformación rápida como esta.
+		
+		Producto nuevoProducto = Producto.builder()
+				.nombre(createProductoDTO.getNombre())
+				.precio(createProductoDTO.getPrecio())
+				.imagen(urlImagen)
+				.categoria(categoriaService.getCategoria(createProductoDTO.getCategoria_id()))
+				.build();
+		
+		return this.productoRepository.save(nuevoProducto);
+		
+	}
+	/*
+	@Override
+	public void addProducto(CreateProductoDTO createProductoDTO, String imagen) {
+
+		createProductoDTO.setImagen(imagen);
+		Producto producto;
+		producto = productoDTOconverter.createdToDTO(createProductoDTO);
+		categoriaRepository.findById(producto.getCategoria().getCategoria_id().longValue())
+				.map(o -> productoRepository.save(producto));
+
+	}
+
+*/
+
+	@Override
+	public void addProducto(CreateProductoDTO createProductoDTO) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 	
