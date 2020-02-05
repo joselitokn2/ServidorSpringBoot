@@ -114,7 +114,7 @@ public class ProductoServiceImpl implements ProductoService {
 				.nombre(createProductoDTO.getNombre())
 				.precio(createProductoDTO.getPrecio())
 				.imagen(urlImagen)
-				.categoria(categoriaService.getCategoria(createProductoDTO.getCategoria_id()))
+				.categoria(categoriaService.findById(createProductoDTO.getCategoria_id()).orElse(null))
 				.build();
 		
 		return this.productoRepository.save(nuevoProducto);
