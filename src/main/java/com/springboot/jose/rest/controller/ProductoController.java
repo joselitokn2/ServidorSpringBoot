@@ -110,7 +110,7 @@ public class ProductoController {
 				.body(allproductos);
 	}
 	
-	/*Insertamos productos directamente sobre el prouducto*/
+	/*Insertamos productos directamente sobre el prouducto- MALA IDEA*/
 	
 	@PostMapping("/producto/add")
 	public ResponseEntity<CreateProductoDTO> addProducto(@RequestBody CreateProductoDTO createProductoDTO) {
