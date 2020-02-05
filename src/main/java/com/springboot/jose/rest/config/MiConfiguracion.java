@@ -46,7 +46,7 @@ public class MiConfiguracion {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/producto/**")
-					.allowedOrigins("http://localhost:9000")
+					.allowedOrigins("*")
 					.allowedMethods("GET", "POST", "PUT", "DELETE")
 					.maxAge(3600);
 			}
