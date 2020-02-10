@@ -136,7 +136,10 @@ public class ProductoServiceImpl implements ProductoService {
 
 	@Override
 	public void addProducto(CreateProductoDTO createProductoDTO) {
-		// TODO Auto-generated method stub
+		Producto producto;
+		producto = productoDTOconverter.createdToDTO(createProductoDTO);
+		categoriaRepository.findById(producto.getCategoria().getCategoria_id().longValue())
+				.map(o -> productoRepository.save(producto));
 		
 	}
 
