@@ -8,46 +8,22 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class ApiError {
 
-	
-	private HttpStatus status;
-	@JsonFormat(shape = Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
-	private LocalDateTime timestamp;
-	private String message;
-	private String debugMessage;
-	
-	private ApiError() {
-		timestamp = LocalDateTime.now();
-	}
-
-	ApiError(HttpStatus status) {
-		this();
-		this.status = status;
-	}
-
-	ApiError(HttpStatus status, Throwable ex) {
-		this();
-		this.status = status;
-		this.message = "Unexpected error";
-		this.debugMessage = ex.getLocalizedMessage();
-	}
-
-	ApiError(HttpStatus status, String message) {
-		this();
-		this.status = status;
-		this.message = message;
-	}
-
-	ApiError(HttpStatus status, String message, Throwable ex) {
-		this();
-		this.status = status;
-		this.message = message;
-		this.debugMessage = ex.getLocalizedMessage();
-	}
+	@NonNull
+	private HttpStatus estado;
+	@JsonFormat(shape = Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+	private LocalDateTime fecha = LocalDateTime.now();
+	@NonNull
+	private String mensaje;
 	
 }

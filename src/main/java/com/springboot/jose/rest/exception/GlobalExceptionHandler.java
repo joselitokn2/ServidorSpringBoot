@@ -12,22 +12,22 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler
-	public ResponseEntity<ApiError> handleException(GlobalNotFoundException ine) {
-		ApiError errorResponse = new ApiError(HttpStatus.NOT_FOUND, ine);
+	public ResponseEntity<ApiError1> handleException(GlobalNotFoundException ine) {
+		ApiError1 errorResponse = new ApiError1(HttpStatus.NOT_FOUND, ine);
 		errorResponse.setMessage(ine.getMessage());
-		return new ResponseEntity<ApiError>(errorResponse, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ApiError1>(errorResponse, HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler
-	public ResponseEntity<ApiError> handleException(Exception ex) {
-		ApiError errorResponse = new ApiError(HttpStatus.BAD_REQUEST, ex);
-		return new ResponseEntity<ApiError>(errorResponse, HttpStatus.BAD_REQUEST);
+	public ResponseEntity<ApiError1> handleException(Exception ex) {
+		ApiError1 errorResponse = new ApiError1(HttpStatus.BAD_REQUEST, ex);
+		return new ResponseEntity<ApiError1>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 	
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
-		ApiError errorResponse = new ApiError(status, ex);
+		ApiError1 errorResponse = new ApiError1(status, ex);
 		return ResponseEntity.status(status).headers(headers).body(errorResponse);
 	}
 
