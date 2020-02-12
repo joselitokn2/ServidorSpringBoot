@@ -5,6 +5,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,11 +27,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final AccessDeniedHandler accessDeniedHandler;
 	
 	
+	/*
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 	}
-
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -39,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.httpBasic();
 				http.csrf().disable().exceptionHandling().authenticationEntryPoint(customBasicAuthenticationEntryPoint).and()
 			//.authenticationEntryPoint(customBasicAuthenticationEntryPoint)
+				
 			.authorizeRequests()
 			.antMatchers("/producto/*").permitAll()
 			.antMatchers(HttpMethod.OPTIONS, "/**").permitAll().antMatchers(HttpMethod.POST, "/login").permitAll()
@@ -54,6 +56,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//http.exceptionHandling()
 			//.accessDeniedHandler(accessDeniedHandler);
 	
+	}
+	*/
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring()
+		.antMatchers("/*/**");
+		
+	}
+
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		// TODO Auto-generated method stub
+		super.configure(http);
 	}
 	
 	
