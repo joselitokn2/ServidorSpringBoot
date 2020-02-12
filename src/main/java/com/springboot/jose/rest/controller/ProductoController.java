@@ -34,10 +34,11 @@ import com.springboot.jose.rest.dto.ProductoDTO;
 import com.springboot.jose.rest.dto.converter.ProductoDTOConverter;
 import com.springboot.jose.rest.exception.GlobalNotFoundException;
 import com.springboot.jose.rest.exception.GlobalSearchException;
+import com.springboot.jose.rest.exception.ProductoNotFoundException;
 import com.springboot.jose.rest.model.Producto;
 import com.springboot.jose.rest.repository.CategoriaRepository;
 import com.springboot.jose.rest.repository.ProductoRepository;
-import com.springboot.jose.rest.service.ProductoService;
+import com.springboot.jose.rest.service.ProductoServiceImpl;
 import com.springboot.jose.rest.upload.StorageService;
 import com.springboot.jose.rest.util.PaginationLinksUtils;
 
@@ -53,7 +54,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductoController {
 
 	@Autowired
-	ProductoService productoService;
+	ProductoServiceImpl productoService;
 
 	@Autowired
 	ProductoDTOConverter productoDTOconverter;
@@ -110,7 +111,7 @@ public class ProductoController {
 				.body(allproductos);
 	}
 	
-	/*Insertamos productos directamente sobre el prouducto- MALA IDEA*/
+	/*Insertamos productos directamente sobre el prouducto- */
 	
 	@PostMapping("/producto/add")
 	public ResponseEntity<CreateProductoDTO> addProducto(@RequestBody CreateProductoDTO createProductoDTO) {
@@ -181,12 +182,13 @@ public class ProductoController {
 
 	@DeleteMapping("/producto/delete/{id}")
 	public ResponseEntity<Producto> deleteProducto(@PathVariable Long id) {
-		Producto producto = productoService.getProducto(id);
-		productoService.deleteProducto(id);
+		Producto producto = productoService.findById(id).orElseThrow(() -> new ProductoNotFoundException(id));
+		productoService.delete(producto);;
 		return new ResponseEntity<>(producto, HttpStatus.NO_CONTENT);
 	}
 
 }
+
 
 
 /**

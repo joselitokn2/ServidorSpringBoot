@@ -21,6 +21,7 @@ public abstract class BaseService<T, ID, R extends JpaRepository<T, ID>> {
 		return repositorio.findById(id);
 	}
 	
+
 	public List<T> findAll() {
 		return repositorio.findAll();
 	}

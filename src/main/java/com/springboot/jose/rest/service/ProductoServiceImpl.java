@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+
 import com.springboot.jose.rest.controller.FicherosController;
 import com.springboot.jose.rest.dto.CreateProductoDTO;
 import com.springboot.jose.rest.dto.ProductoDTO;
@@ -28,7 +29,7 @@ import com.springboot.jose.rest.upload.StorageService;
 @Service
 
 @Transactional
-public class ProductoServiceImpl implements ProductoService {
+public class ProductoServiceImpl extends BaseService<Producto, Long, ProductoRepository> {
 
 	@Autowired
 	ProductoRepository productoRepository;
@@ -44,12 +45,10 @@ public class ProductoServiceImpl implements ProductoService {
 	@Autowired
 	CategoriaService categoriaService;
 
-	@Override
 	public Producto getProducto(long productoId) {
 		return productoRepository.findById(productoId).orElse(null);
 	}
 
-	@Override
 	public void deleteProducto(long productoId) {
 		if (productoRepository.existsById(productoId)) {
 			productoRepository.deleteById(productoId);
@@ -59,7 +58,6 @@ public class ProductoServiceImpl implements ProductoService {
 
 	}
 
-	@Override
 	public void updateProducto(long productoId, Producto producto) {
 		if (productoRepository.existsById(productoId)) {
 			producto.setProducto_id(productoId);
@@ -70,7 +68,6 @@ public class ProductoServiceImpl implements ProductoService {
 
 	
 
-	@Override
 	public Page<ProductoDTO> allProductos(Pageable pageable) {
 		Page<Producto> productoLista = productoRepository.findAll(pageable);
 		Page<ProductoDTO> empleadoListaDTO = productoLista.map(productoDTOconverter::convertToDto);
@@ -82,7 +79,6 @@ public class ProductoServiceImpl implements ProductoService {
 		
 	}
 
-	@Override
 	public Page<ProductoDTO> findByNombre(String txt, Pageable pageable) {
 		Page<Producto> productoLista = productoRepository.findByNombreContainsIgnoreCase(txt, pageable);
 		Page<ProductoDTO> productoListaDTO = productoLista.map(productoDTOconverter::convertToDto);
@@ -94,7 +90,6 @@ public class ProductoServiceImpl implements ProductoService {
 	
 	}
 
-	@Override
 	public Producto addProducto(CreateProductoDTO createProductoDTO, MultipartFile file) {
 		String urlImagen = null;
 		
@@ -134,7 +129,6 @@ public class ProductoServiceImpl implements ProductoService {
 
 */
 
-	@Override
 	public void addProducto(CreateProductoDTO createProductoDTO) {
 		Producto producto;
 		producto = productoDTOconverter.createdToDTO(createProductoDTO);

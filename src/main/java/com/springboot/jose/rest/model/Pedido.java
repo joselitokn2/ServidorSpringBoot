@@ -9,12 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +35,10 @@ public class Pedido {
 	@Id @GeneratedValue
 	private Long id;
 	
-	private String cliente;
+	@ManyToOne
+	@JoinColumn(name="cliente_id")
+	private UserEntity cliente;
+
 	
 	@CreatedDate
 	private LocalDateTime fecha;

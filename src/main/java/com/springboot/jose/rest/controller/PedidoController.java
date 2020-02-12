@@ -2,6 +2,7 @@ package com.springboot.jose.rest.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.springboot.jose.rest.exception.PedidoNotFoundException;
 import com.springboot.jose.rest.model.Pedido;
-import com.springboot.jose.rest.service.PedidoServiceImpl;
+import com.springboot.jose.rest.service.PedidoService;
 import com.springboot.jose.rest.util.PaginationLinksUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,10 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/pedido")
 @RequiredArgsConstructor
 public class PedidoController {
-
-	private final PedidoServiceImpl pedidoService;
-	private final PaginationLinksUtils paginationLinksUtils;
+	@Autowired
+	PedidoService pedidoService;
+	@Autowired
+	PaginationLinksUtils paginationLinksUtils;
 	
 	
 	@GetMapping("/")

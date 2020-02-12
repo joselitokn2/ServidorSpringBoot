@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import com.springboot.jose.rest.upload.StorageService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,10 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class FicherosController {
-	@Autowired
-	Logger logger = LoggerFactory.getLogger(FicherosController.class);
+	//@Autowired
+	//Logger logger = LoggerFactory.getLogger(FicherosController.class);
+
+	private static final Logger logger = LoggerFactory.getLogger(FicherosController.class);
 
 	@Autowired
 	StorageService storageService;
