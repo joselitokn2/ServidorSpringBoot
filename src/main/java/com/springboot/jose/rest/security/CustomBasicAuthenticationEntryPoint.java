@@ -42,7 +42,7 @@ public class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntr
 
 	@PostConstruct
 	public void initRealname() {
-		setRealmName("openwebinars.net");
+		setRealmName("jose.com");
 	}
 	
 
